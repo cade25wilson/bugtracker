@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace bugtracker.Models
 {
@@ -13,11 +14,10 @@ namespace bugtracker.Models
         public int ProjectId { get; set; }
         public Projects Project { get; set; }
 
-        [ForeignKey("Users")]
-        public int UserId { get; set; }
-        public Users Users { get; set; }
-        [ForeignKey("Roles")]
-        public string AccessType { get; set; }
+        [ForeignKey("AspNetUsers")]
+        public IdentityUser UserId { get; set; }
 
+        [ForeignKey("AspNetRoles")]
+        public IdentityRole AccessType { get; set; }
     }
 }
