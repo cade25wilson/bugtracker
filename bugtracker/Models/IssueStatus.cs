@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using bugtracker.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace bugtracker.Models
 {
-    public class IssuePriority
+    public class IssueStatus
     {
         [Key]
         public int Id { get; set; }
