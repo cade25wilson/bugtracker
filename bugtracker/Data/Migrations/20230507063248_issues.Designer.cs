@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bugtracker.Data;
 
@@ -11,9 +12,11 @@ using bugtracker.Data;
 namespace bugtracker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230507063248_issues")]
+    partial class issues
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -276,22 +279,22 @@ namespace bugtracker.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AccessTypeFk")
+                    b.Property<string>("AspNetRoles")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AspNetUsers")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserIdFk")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("AccessTypeFk");
+                    b.HasIndex("AspNetRoles");
+
+                    b.HasIndex("AspNetUsers");
 
                     b.HasIndex("ProjectId");
-
-                    b.HasIndex("UserIdFk");
 
                     b.ToTable("ProjectAccess");
                 });
@@ -390,17 +393,17 @@ namespace bugtracker.Data.Migrations
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "AccessType")
                         .WithMany()
-                        .HasForeignKey("AccessTypeFk");
+                        .HasForeignKey("AspNetRoles");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UserId")
+                        .WithMany()
+                        .HasForeignKey("AspNetUsers");
 
                     b.HasOne("bugtracker.Models.Projects", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UserId")
-                        .WithMany()
-                        .HasForeignKey("UserIdFk");
 
                     b.Navigation("AccessType");
 

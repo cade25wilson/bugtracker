@@ -14,10 +14,10 @@ namespace bugtracker.Models
         public int ProjectId { get; set; }
         public Projects Project { get; set; }
 
-        [ForeignKey("AspNetUsers")]
+        [ForeignKey("UserIdFk")]
         public IdentityUser UserId { get; set; }
 
-        [ForeignKey("AspNetRoles")]
+        [ForeignKey("AccessTypeFk")]
         public IdentityRole AccessType { get; set; }
     }
 }
