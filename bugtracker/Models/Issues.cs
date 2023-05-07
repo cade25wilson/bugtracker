@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using bugtracker.Models;
 
 namespace bugtracker.Models
 {
@@ -16,8 +17,8 @@ namespace bugtracker.Models
         [Required]
         public string Description { get; set; }
 
-        [Required]
-        public int Issue_Priority { get; set; }
+        [ForeignKey("Priority")]
+        public IssuePriority PriorityFK { get; set; }
 
         [ForeignKey("CreatorFK")]
         public IdentityUser Creator { get; set; }
