@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace bugtracker.Models
 {
@@ -12,5 +14,7 @@ namespace bugtracker.Models
         public string Description { get; set; }   
         [DataType(DataType.Date)]
         public DateTime ModifiedOn { get; set; }
+        [ForeignKey("ModifiedBy")]
+        public IdentityUser User { get; set; }
     }
 }

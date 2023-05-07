@@ -14,6 +14,6 @@ namespace bugtracker.Data
         public DbSet<ProjectAccess> ProjectAccess { get; set; }
         public DbSet<Issues> Issues { get; set; }
         public DbSet<IssuePriority> IssuePriority { get; set; }
-
+        public DbSet<IssueStatus> IssueStatus { get; set; }
     }
 }
