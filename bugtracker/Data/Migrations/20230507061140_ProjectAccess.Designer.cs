@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bugtracker.Data;
 
@@ -11,9 +12,11 @@ using bugtracker.Data;
 namespace bugtracker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230507061140_ProjectAccess")]
+    partial class ProjectAccess
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,22 +235,28 @@ namespace bugtracker.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AspNetRoles")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AspNetUsers")
+                    b.Property<string>("AccessTypeId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AspNetRoles");
-
-                    b.HasIndex("AspNetUsers");
+                    b.HasIndex("AccessTypeId");
 
                     b.HasIndex("ProjectId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("ProjectAccess");
                 });
@@ -331,11 +340,7 @@ namespace bugtracker.Data.Migrations
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "AccessType")
                         .WithMany()
-                        .HasForeignKey("AspNetRoles");
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UserId")
-                        .WithMany()
-                        .HasForeignKey("AspNetUsers");
+                        .HasForeignKey("AccessTypeId");
 
                     b.HasOne("bugtracker.Models.Projects", "Project")
                         .WithMany()
@@ -343,11 +348,15 @@ namespace bugtracker.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
                     b.Navigation("AccessType");
 
                     b.Navigation("Project");
 
-                    b.Navigation("UserId");
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }
