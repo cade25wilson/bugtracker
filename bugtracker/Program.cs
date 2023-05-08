@@ -12,7 +12,9 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddRazorPages();
+
+// Add MVC controllers and views, with runtime compilation
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 var app = builder.Build();
 
@@ -33,8 +35,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication(); // Add this line for authentication
 app.UseAuthorization();
 
-app.MapRazorPages();
+app.MapControllerRoute( // Add this line to set up the default route
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
