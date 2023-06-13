@@ -56,16 +56,27 @@ namespace bugtracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,ModifiedOn")] Projects projects)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,ModifiedOn,User")] Projects projects)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(projects);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(projects);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "An error occurred while creating the project: " + ex.Message);
+                    return View(projects);
+                }
             }
+
             return View(projects);
         }
+
+
 
         // GET: Projects/Edit/5
         public async Task<IActionResult> Edit(int? id)
